@@ -1,5 +1,5 @@
 import 'package:coinsaver/widgets/income_bar.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -53,7 +53,9 @@ class _MonthTransactionState extends State<MonthTransaction> {
                   backgroundColor: Colors.greenAccent,
                   label: Text(
                     UtilityFunction.addComma(income.toString()),
-                    style: TextStyle(fontSize: 25,),
+                    style: TextStyle(
+                      fontSize: 25,
+                    ),
                   ),
                 ),
               ),

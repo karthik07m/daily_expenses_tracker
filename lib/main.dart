@@ -5,7 +5,7 @@ import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:provider/provider.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -25,6 +25,7 @@ import 'screens/charts/pie_chart.dart';
 import 'screens/main_screen.dart';
 import 'models/notification.dart';
 import 'screens/splash_screen.dart';
+import 'utilities/check_backup.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -100,6 +101,9 @@ class MyApp extends StatelessWidget {
             DayTransaction.routeName: (ctx) => DayTransaction(),
             PieChart.routeName: (ctx) => PieChart(),
             Settings.routeName: (ctx) => Settings(),
+            BackUpData.routeName: (ctx) => BackUpData(
+                  title: "Test",
+                ),
             AppInfo.routeName: (ctx) => AppInfo()
           },
         ),

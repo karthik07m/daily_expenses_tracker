@@ -113,54 +113,126 @@ class WeekTransaction extends StatelessWidget {
                                           context, DayTransaction.routeName,
                                           arguments: dates[index]);
                                     },
-                                    child: Card(
-                                      color: dates[index].day == today.day &&
-                                              dates[index].month ==
-                                                  today.month &&
-                                              dates[index].year == today.year
-                                          ? Theme.of(context).accentColor
-                                          : Theme.of(context).backgroundColor,
-                                      child: ListTile(
-                                        leading: Text(
-                                          DateFormat.MMMd()
-                                              .format(dates[index]),
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1!
-                                                  .color),
-                                        ),
-                                        title: Text(
-                                          UtilityFunction.weeks[index],
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1!
-                                                  .color),
-                                        ),
-                                        trailing: Column(
+                                    child: Container(
+                                      child: Card(
+                                        color: dates[index].day == today.day &&
+                                                dates[index].month ==
+                                                    today.month &&
+                                                dates[index].year == today.year
+                                            ? Theme.of(context).accentColor
+                                            : Theme.of(context).backgroundColor,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            Flexible(
-                                              child: Chip(
-                                                  label: Text(UtilityFunction
-                                                      .addComma(trans
-                                                          .eachDayTotalAmount(
-                                                              dates[index])
-                                                          .expensesTotal))),
+                                            Text(
+                                              DateFormat.MMMd()
+                                                  .format(dates[index]),
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color),
                                             ),
-                                            Flexible(
-                                              child: Chip(
-                                                  label: Text(UtilityFunction
-                                                      .addComma(trans
-                                                          .eachDayTotalAmount(
-                                                              dates[index])
-                                                          .incomeTotal))),
+                                            Text(
+                                              UtilityFunction.weeks[index],
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyText1!
+                                                      .color),
+                                            ),
+                                            Row(
+                                              children: [
+                                                Chip(
+                                                  backgroundColor:
+                                                      Colors.redAccent,
+                                                  label: Text(
+                                                    UtilityFunction.addComma(
+                                                        trans
+                                                            .eachDayTotalAmount(
+                                                                dates[index])
+                                                            .expensesTotal),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Chip(
+                                                  backgroundColor:
+                                                      Colors.greenAccent,
+                                                  label: Text(
+                                                    UtilityFunction.addComma(
+                                                        trans
+                                                            .eachDayTotalAmount(
+                                                                dates[index])
+                                                            .incomeTotal),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
                                       ),
                                     ),
                                   )),
+// old list view
+                          // ...List.generate(
+                          //     7,
+                          //     (index) => InkWell(
+                          //           onTap: () {
+                          //             Navigator.pushNamed(
+                          //                 context, DayTransaction.routeName,
+                          //                 arguments: dates[index]);
+                          //           },
+                          //           child: Card(
+                          //             color: dates[index].day == today.day &&
+                          //                     dates[index].month ==
+                          //                         today.month &&
+                          //                     dates[index].year == today.year
+                          //                 ? Theme.of(context).accentColor
+                          //                 : Theme.of(context).backgroundColor,
+                          //             child: ListTile(
+                          //               leading: Text(
+                          //                 DateFormat.MMMd()
+                          //                     .format(dates[index]),
+                          //                 style: TextStyle(
+                          //                     color: Theme.of(context)
+                          //                         .textTheme
+                          //                         .bodyText1!
+                          //                         .color),
+                          //               ),
+                          //               title: Text(
+                          //                 UtilityFunction.weeks[index],
+                          //                 style: TextStyle(
+                          //                     color: Theme.of(context)
+                          //                         .textTheme
+                          //                         .bodyText1!
+                          //                         .color),
+                          //               ),
+                          //               trailing: Column(
+                          //                 children: [
+                          //                   Flexible(
+                          //                     child: Chip(
+                          //                         label: Text(UtilityFunction
+                          //                             .addComma(trans
+                          //                                 .eachDayTotalAmount(
+                          //                                     dates[index])
+                          //                                 .expensesTotal))),
+                          //                   ),
+                          //                   Flexible(
+                          //                     child: Chip(
+                          //                         label: Text(UtilityFunction
+                          //                             .addComma(trans
+                          //                                 .eachDayTotalAmount(
+                          //                                     dates[index])
+                          //                                 .incomeTotal))),
+                          //                   ),
+                          //                 ],
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         )),
                         ]),
                       ),
                     ],

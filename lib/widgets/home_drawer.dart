@@ -1,4 +1,5 @@
 import 'package:coinsaver/screens/setting.dart';
+import 'package:coinsaver/utilities/check_backup.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -89,8 +90,8 @@ class MainDrawer extends StatelessWidget {
               _buildIconButtons(Icons.bug_report, 'Report a Bug', bugUrl,
                   context, true, false),
               Divider(),
-              _buildIconButtons(Icons.settings, 'Settings', Settings.routeName,
-                  context, false, false),
+              _buildIconButtons(Icons.settings, 'Settings',
+                  BackUpData.routeName, context, false, false),
               Divider(),
               _buildIconButtons(Icons.info, 'About', AppInfo.routeName, context,
                   false, false),
