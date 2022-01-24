@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../../utilities/common_functions.dart';
 import '../providers/transactions.dart';
 import '../widgets/no_data.dart';
+import 'add_transacions.dart';
 
 // ignore: must_be_immutable
 class DayTransaction extends StatelessWidget {
@@ -16,6 +17,9 @@ class DayTransaction extends StatelessWidget {
   final DateTime today = DateTime.now();
   DateTime current = DateTime.now();
 
+  bool isMainScreen = false;
+
+  DayTransaction(this.isMainScreen);
   Future<void> _refreshTransaction(BuildContext context, var date) async {
     await Provider.of<Transactions>(context, listen: false)
         .fetchDayTransactionDetails(date);
@@ -37,8 +41,6 @@ class DayTransaction extends StatelessWidget {
   }
 
   Widget _mainData(BuildContext context, var date, var arguments) {
-    // final mediaQuery = MediaQuery.of(context);
-    // final Size size = mediaQuery.size;
     return RefreshIndicator(
         color: kPrimaryColor,
         onRefresh: () => _refreshTransaction(context, date),
@@ -146,22 +148,36 @@ class DayTransaction extends StatelessWidget {
     final date = routeArguments == null ? current : routeArguments as DateTime;
 
     return FutureBuilder(
-        future: Provider.of<Transactions>(context, listen: false)
-            .fetchDayTransactionDetails(date),
-        builder: (ctx, snapshot) =>
-            snapshot.connectionState == ConnectionState.waiting
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: kPrimaryColor,
+      future: Provider.of<Transactions>(context, listen: false)
+          .fetchDayTransactionDetails(date),
+      builder: (ctx, snapshot) =>
+          snapshot.connectionState == ConnectionState.waiting
+              ? Center(
+                  child: CircularProgressIndicator(
+                    color: kPrimaryColor,
+                  ),
+                )
+              : routeArguments == null
+                  ? _mainData(context, date, routeArguments)
+                  : Scaffold(
+                      appBar: AppBar(
+                        title: Text("${DateFormat.yMMMd().format(date)}"),
+                      ),
+                      body: _mainData(context, date, routeArguments),
+                      floatingActionButton: isMainScreen
+                          ? Text("")
+                          : FloatingActionButton(
+                              backgroundColor: kPrimaryColor,
+                              child: Icon(
+                                Icons.add,
+                                color: Theme.of(context).backgroundColor,
+                              ),
+                              elevation: 0.1,
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, AddTransactions.routeName);
+                              }),
                     ),
-                  )
-                : routeArguments == null
-                    ? _mainData(context, date, routeArguments)
-                    : Scaffold(
-                        appBar: AppBar(
-                          title: Text("${DateFormat.yMMMd().format(date)}"),
-                        ),
-                        body: _mainData(context, date, routeArguments),
-                      ));
+    );
   }
 }

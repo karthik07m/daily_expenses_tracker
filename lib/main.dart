@@ -98,7 +98,7 @@ class MyApp extends StatelessWidget {
                 MainScreen(notificationAppLaunchDetails),
             AddTransactions.routeName: (ctx) => AddTransactions(),
             AddExpense.routeName: (ctx) => AddExpense(),
-            DayTransaction.routeName: (ctx) => DayTransaction(),
+            DayTransaction.routeName: (ctx) => DayTransaction(false),
             PieChart.routeName: (ctx) => PieChart(),
             Settings.routeName: (ctx) => Settings(),
             BackUpData.routeName: (ctx) => BackUpData(

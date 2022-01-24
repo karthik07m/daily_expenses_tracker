@@ -64,7 +64,7 @@ class _BackUpDataState extends State<BackUpData> {
             ElevatedButton(
               onPressed: () async {
                 var databasesPath = await getDatabasesPath();
-                var dbPath = join(databasesPath, 'doggie_database.db');
+                var dbPath = join(databasesPath, 'transaction.db');
                 await deleteDatabase(dbPath);
                 setState(() {
                   message = 'Successfully deleted DB';
@@ -75,7 +75,7 @@ class _BackUpDataState extends State<BackUpData> {
             ElevatedButton(
               onPressed: () async {
                 var databasesPath = await getDatabasesPath();
-                var dbPath = join(databasesPath, 'doggie_database.db');
+                var dbPath = join(databasesPath, 'transaction.db');
 
                 FilePickerResult? result =
                     await FilePicker.platform.pickFiles();

@@ -42,7 +42,8 @@ class IncomeBar extends StatelessWidget {
                               children: [
                                 Text("Expenses",
                                     style: TextStyle(color: kBackgroundColor)),
-                                Text("${UtilityFunction.addComma(spent)}",
+                                Text(
+                                    "${UtilityFunction.addComma(spent.toStringAsFixed(2))}",
                                     style: TextStyle(color: kBackgroundColor)),
                               ],
                             ))),
@@ -66,7 +67,8 @@ class IncomeBar extends StatelessWidget {
                         children: [
                           Text('Available',
                               style: TextStyle(color: kBackgroundColor)),
-                          Text("${UtilityFunction.addComma(avail)}",
+                          Text(
+                              "${UtilityFunction.addComma(avail.toStringAsFixed(2))}",
                               style: TextStyle(color: kBackgroundColor)),
                         ],
                       ))),

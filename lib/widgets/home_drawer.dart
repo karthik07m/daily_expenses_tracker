@@ -1,4 +1,3 @@
-import 'package:coinsaver/screens/setting.dart';
 import 'package:coinsaver/utilities/check_backup.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';

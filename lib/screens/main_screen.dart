@@ -34,7 +34,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int currentIndex = 0;
+  int currentIndex = 2;
 
   @override
   void initState() {
@@ -113,7 +113,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget getCurrentScreen(int index) {
     switch (index) {
       case 0:
-        return DayTransaction();
+        return DayTransaction(true);
       case 1:
         return WeekTransaction();
       case 2:
@@ -121,7 +121,7 @@ class _MainScreenState extends State<MainScreen> {
       case 3:
         return YearlyTransaction();
       default:
-        return DayTransaction();
+        return DayTransaction(true);
     }
   }
 
