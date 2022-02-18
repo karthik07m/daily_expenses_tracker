@@ -174,16 +174,18 @@ class _AddExpenseState extends State<AddExpense> {
   void didChangeDependencies() {
     if (_intial) {
       Object? transactionId = ModalRoute.of(context)!.settings.arguments;
-      if (transactionId != null) {
+      print("test ${transactionId.runtimeType}");
+      if (transactionId != null && transactionId.runtimeType == String) {
         _transaction = Provider.of<Transactions>(context, listen: false)
             .findById(transactionId.toString());
-
         _selectedDate = _transaction.date;
-
         _category = _transaction.category;
-        _edit = true;
 
+        _edit = true;
         _intial = false;
+      } else if (transactionId != null) {
+        transactionId = transactionId as Map<String, String>;
+        _selectedDate = DateTime.parse(transactionId['currentDate'].toString());
       }
     }
     super.didChangeDependencies();
@@ -199,13 +201,13 @@ class _AddExpenseState extends State<AddExpense> {
     if (_category.isEmpty) {
       _category = UtilityFunction.thirdRowCats.last;
     }
-    print(_isIncome);
+
     _transaction = Transaction(
         id: _transaction.id,
         title: _transaction.title,
         isIncome: _isIncome,
         amount: _transaction.amount,
-        date: _transaction.date,
+        date: _selectedDate,
         category: _category);
 
     Provider.of<Transactions>(context, listen: false)
@@ -215,6 +217,15 @@ class _AddExpenseState extends State<AddExpense> {
 
   @override
   Widget build(BuildContext context) {
+    // final routeArguments =
+    //     ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+    // print("route arugment $routeArguments");
+    // final date =
+    //     routeArguments == null ? DateTime.now() : routeArguments as DateTime;
+    // print(date);
+    // if (!_isDateEdited) {
+    //   _selectedDate = date;
+    // }
     return Scaffold(
       body: Form(
         key: _form,

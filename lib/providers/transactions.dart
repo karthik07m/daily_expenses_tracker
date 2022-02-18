@@ -31,6 +31,7 @@ class Transactions with ChangeNotifier {
   void addTransactionItem(Transaction item, bool isEdit) {
     if (isEdit) {
       int index = _items.indexWhere((element) => element.id == item.id);
+
       _items[index] = item;
     } else {
       _items.insert(0, item);
@@ -54,7 +55,14 @@ class Transactions with ChangeNotifier {
   }
 
   Transaction findById(String id) {
-    return _items.firstWhere((element) => element.id == id);
+    return _items.firstWhere((element) => element.id == id,
+        orElse: () => Transaction(
+            id: DateTime.now().toString(),
+            title: "",
+            isIncome: 0,
+            amount: 0,
+            date: DateTime.now(),
+            category: ""));
   }
 
   Future<void> fetchTransactionDetails() async {

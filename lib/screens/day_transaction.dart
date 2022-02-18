@@ -175,7 +175,10 @@ class DayTransaction extends StatelessWidget {
                               elevation: 0.1,
                               onPressed: () {
                                 Navigator.pushNamed(
-                                    context, AddTransactions.routeName);
+                                    context, AddTransactions.routeName,
+                                    arguments: <String, String>{
+                                      'currentDate': '$date',
+                                    });
                               }),
                     ),
     );
