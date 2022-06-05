@@ -243,7 +243,7 @@ class _AddExpenseState extends State<AddExpense> {
                       child: OutlinedButton(
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(_expenses
-                                ? Theme.of(context).accentColor
+                                ? Theme.of(context).colorScheme.secondary
                                 : Theme.of(context).backgroundColor)),
                         child: Text(
                           "Expense",
@@ -267,7 +267,7 @@ class _AddExpenseState extends State<AddExpense> {
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(_expenses
                                 ? Theme.of(context).backgroundColor
-                                : Theme.of(context).accentColor)),
+                                : Theme.of(context).colorScheme.secondary)),
                         child: Text(
                           "Income",
                           style: TextStyle(fontSize: 20, color: kPrimaryColor),

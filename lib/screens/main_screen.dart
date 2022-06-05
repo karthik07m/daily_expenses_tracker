@@ -1,5 +1,6 @@
 import 'package:coinsaver/helper/db_helper.dart';
 import 'package:coinsaver/screens/add_expense.dart';
+import 'package:coinsaver/utilities/currency.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -41,6 +42,8 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     _configureSelectNotificationSubject();
     _scheduleDailyTenAMNotification();
+
+    Provider.of<CurrencyProvider>(context, listen: false).getCurrency();
   }
 
   void _configureSelectNotificationSubject() {

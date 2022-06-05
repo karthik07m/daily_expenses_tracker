@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
+
 import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sqflite/sqflite.dart';
@@ -18,6 +19,7 @@ class BackUpData extends StatefulWidget {
 
 class _BackUpDataState extends State<BackUpData> {
   String message = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,10 +34,13 @@ class _BackUpDataState extends State<BackUpData> {
             ElevatedButton(
               onPressed: () async {
                 final dbFolder = await getDatabasesPath();
+
                 File source1 = File('$dbFolder/transaction.db');
 
-                Directory copyTo =
-                    Directory("storage/emulated/0/Sqlite Backup");
+                // String? result = await FilePicker.platform.getDirectoryPath();
+                String result = "/storage/emulated/0/Download";
+
+                Directory copyTo = Directory(result);
                 if ((await copyTo.exists())) {
                   // print("Path exist");
                   var status = await Permission.storage.status;
@@ -58,6 +63,10 @@ class _BackUpDataState extends State<BackUpData> {
                 setState(() {
                   message = 'Successfully Copied DB';
                 });
+
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text("Successfully Copied to downloads"),
+                ));
               },
               child: const Text('Copy DB'),
             ),
@@ -86,6 +95,10 @@ class _BackUpDataState extends State<BackUpData> {
                   setState(() {
                     message = 'Successfully Restored DB';
                   });
+
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("Successfully Restored from downloads"),
+                  ));
                 } else {
                   // User canceled the picker
 

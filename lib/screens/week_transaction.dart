@@ -119,7 +119,10 @@ class WeekTransaction extends StatelessWidget {
                                                 dates[index].month ==
                                                     today.month &&
                                                 dates[index].year == today.year
-                                            ? Theme.of(context).accentColor
+                                            ? Colors.greenAccent
+                                            // Theme.of(context)
+                                            //     .colorScheme
+                                            //     .secondary
                                             : Theme.of(context).backgroundColor,
                                         child: Row(
                                           mainAxisAlignment:

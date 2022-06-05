@@ -1,4 +1,5 @@
-import 'package:coinsaver/utilities/check_backup.dart';
+import 'package:coinsaver/screens/setting.dart';
+// import 'package:coinsaver/utilities/check_backup.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -6,6 +7,7 @@ import '../../utilities/constants.dart';
 import '../screens/aboutapp_info.dart';
 import '../screens/charts/pie_chart.dart';
 import '../screens/main_screen.dart';
+import '../screens/view_all_transaction.dart';
 
 class MainDrawer extends StatelessWidget {
   Widget _buildIconButtons(IconData icon, String title, String route,
@@ -74,11 +76,12 @@ class MainDrawer extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 20),
               _buildIconButtons(Icons.home, "Home", MainScreen.routeName,
                   context, false, true),
+              Divider(),
+              _buildIconButtons(Icons.all_inbox, 'All Transactions',
+                  ViewAllTransaction.routeName, context, false, false),
               Divider(),
               _buildIconButtons(Icons.pie_chart, 'Charts', PieChart.routeName,
                   context, false, false),
@@ -89,8 +92,8 @@ class MainDrawer extends StatelessWidget {
               _buildIconButtons(Icons.bug_report, 'Report a Bug', bugUrl,
                   context, true, false),
               Divider(),
-              _buildIconButtons(Icons.settings, 'Settings',
-                  BackUpData.routeName, context, false, false),
+              _buildIconButtons(Icons.settings, 'Settings', Settings.routeName,
+                  context, false, false),
               Divider(),
               _buildIconButtons(Icons.info, 'About', AppInfo.routeName, context,
                   false, false),

@@ -35,8 +35,11 @@ class _MonthTransactionState extends State<MonthTransaction> {
       child: Column(
         children: [
           Text(day.day.toString(),
-              style:
-                  TextStyle(color: kPrimaryColor, fontWeight: FontWeight.bold)),
+              style: TextStyle(
+                  color: isSameDay(day, DateTime.now())
+                      ? kPrimaryColor
+                      : Colors.grey,
+                  fontWeight: FontWeight.bold)),
           if (expenses != 0.0)
             Expanded(
               child: FittedBox(
@@ -63,6 +66,13 @@ class _MonthTransactionState extends State<MonthTransaction> {
         ],
       ),
     );
+  }
+
+  @override
+  Future<void> didChangeDependencies() async {
+    await Provider.of<Transactions>(context, listen: false)
+        .fetchMonthAmounts(now);
+    super.didChangeDependencies();
   }
 
   @override
@@ -99,10 +109,12 @@ class _MonthTransactionState extends State<MonthTransaction> {
                 return isSameDay(_selectedDay, day);
               },
               onDaySelected: (selectedDay, focusedDay) {
-                if (!isSameDay(_selectedDay, selectedDay)) {
+                if (!isSameDay(_selectedDay, selectedDay) &
+                    DateTime.now().isAfter(selectedDay)) {
                   setState(() {
                     _selectedDay = selectedDay;
                   });
+
                   Navigator.pushNamed(context, DayTransaction.routeName,
                           arguments: selectedDay)
                       .then((_) {

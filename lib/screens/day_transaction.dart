@@ -1,4 +1,5 @@
 import 'package:coinsaver/models/transaction.dart';
+import 'package:coinsaver/screens/view_all_transaction.dart';
 import 'package:coinsaver/utilities/constants.dart';
 import 'package:coinsaver/widgets/income_expenses_ta.dart';
 import 'package:coinsaver/widgets/transaction_item.dart';
@@ -67,6 +68,14 @@ class DayTransaction extends StatelessWidget {
 
           return Column(
             children: [
+              InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ViewAllTransaction()));
+                  },
+                  child: Text("View all")),
               arguments == null
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,

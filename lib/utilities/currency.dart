@@ -1,17 +1,20 @@
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CurrencyProvider {
+class CurrencyProvider extends ChangeNotifier {
   static String currentCurrency = "\$";
 
-  static Future<void> setCurrency(String currency) async {
+  Future<void> setCurrency(String currency) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString("currency", currency);
+    notifyListeners();
   }
 
-  static Future<void> getCurrency() async {
+  Future<void> getCurrency() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? getCurrency = prefs.getString("currency");
 
     currentCurrency = getCurrency == null ? "\$" : getCurrency;
+    notifyListeners();
   }
 }

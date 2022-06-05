@@ -103,7 +103,6 @@ class _PieChartState extends State<PieChart> {
                                   series: <PieSeries<PieData, String>>[
                                     PieSeries<PieData, String>(
                                         dataSource: pieData.items,
-                                        enableSmartLabels: true,
                                         xValueMapper: (PieData data, _) =>
                                             data.xData,
                                         yValueMapper: (PieData data, _) =>

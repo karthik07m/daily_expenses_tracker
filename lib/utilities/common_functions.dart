@@ -39,7 +39,7 @@ class UtilityFunction {
 
       case "Bills":
         {
-          return Icons.pages_outlined;
+          return Icons.pages;
         }
       case "Tax":
         {
@@ -51,7 +51,7 @@ class UtilityFunction {
         }
       case "Salary":
         {
-          return Icons.money;
+          return Icons.money_rounded;
         }
       case "Bonus":
         {
@@ -117,6 +117,7 @@ class UtilityFunction {
   static String addComma(var value) {
     String amount = value.toString();
     currency = CurrencyProvider.currentCurrency;
+    print("CURRENR CURRENCY -  $currency");
     String finalAmount = amount.replaceAllMapped(
         new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => "${m[1]},");
     return " $currency $finalAmount";
@@ -124,6 +125,7 @@ class UtilityFunction {
 
   static String addCommaWithSign(var value, bool sign) {
     String amount = value.toString();
+
     currency = CurrencyProvider.currentCurrency;
     String finalAmount = amount.replaceAllMapped(
         new RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => "${m[1]},");

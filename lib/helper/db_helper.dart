@@ -33,7 +33,7 @@ class DBHelper {
 
   static Future<List<Map<String, dynamic>>> getData(String table) async {
     final db = await DBHelper.database();
-    return await db.query(table);
+    return await db.rawQuery("SELECT * FROM $table ORDER BY date");
   }
 
   static Future<void> updateById(
@@ -117,6 +117,13 @@ class DBHelper {
     final db = await DBHelper.database();
     return await db.rawQuery(
         "SELECT category, COUNT(*), SUM(amount) FROM $table WHERE isIncome = 0 AND date BETWEEN '$startDate' AND '$endDate' GROUP BY category");
+  }
+
+  static Future<List<Map<String, dynamic>>> getMonthIncomeTransactionDetails(
+      String table, String startDate, String endDate) async {
+    final db = await DBHelper.database();
+    return await db.rawQuery(
+        "SELECT category, COUNT(*), SUM(amount) FROM $table WHERE isIncome = 1 AND date BETWEEN '$startDate' AND '$endDate' GROUP BY category");
   }
 
   static deleteItem(String id) async {

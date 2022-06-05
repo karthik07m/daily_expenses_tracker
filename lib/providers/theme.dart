@@ -3,17 +3,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../utilities/constants.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  static ThemeData dark = ThemeData.dark()
-      .copyWith(accentColor: Colors.greenAccent, primaryTextTheme: TextTheme());
+  static ThemeData dark = ThemeData.dark().copyWith(
+      primaryTextTheme: TextTheme(),
+      colorScheme:
+          ColorScheme.fromSwatch().copyWith(secondary: Colors.greenAccent));
   IconData icon = Icons.brightness_3_sharp;
   static ThemeData light = ThemeData(
-    primarySwatch: Colors.teal,
     textTheme: TextTheme(bodyText1: TextStyle(color: kTextColor)),
     scaffoldBackgroundColor: kBackgroundColor,
     primaryColor: kPrimaryColor,
-    accentColor: kAccentColor,
     backgroundColor: Colors.white,
     visualDensity: VisualDensity.adaptivePlatformDensity,
+    colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal)
+        .copyWith(secondary: kAccentColor),
   );
 
   ThemeData _selectedTheme = light;

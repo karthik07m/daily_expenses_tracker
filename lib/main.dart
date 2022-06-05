@@ -1,4 +1,5 @@
 import 'package:coinsaver/screens/setting.dart';
+import 'package:coinsaver/screens/view_all_transaction.dart';
 import 'package:coinsaver/utilities/currency.dart';
 import 'package:coinsaver/utilities/constants.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
@@ -47,7 +48,6 @@ Future<void> main() async {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   await _configureLocalTimeZone();
-  await CurrencyProvider.getCurrency();
 
   notificationAppLaunchDetails =
       await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
@@ -82,12 +82,14 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    //Provider.of<CurrencyProvider>(context, listen: false).getCurrency();
     return Consumer<ThemeProvider>(
       builder: (context, value, child) => MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => Transactions()),
           ChangeNotifierProvider(create: (_) => Incomes()),
           ChangeNotifierProvider(create: (_) => ChartData()),
+          ChangeNotifierProvider(create: (_) => CurrencyProvider()),
         ],
         child: MaterialApp(
           title: appName,
@@ -104,7 +106,8 @@ class MyApp extends StatelessWidget {
             BackUpData.routeName: (ctx) => BackUpData(
                   title: "Test",
                 ),
-            AppInfo.routeName: (ctx) => AppInfo()
+            AppInfo.routeName: (ctx) => AppInfo(),
+            ViewAllTransaction.routeName: (ctx) => ViewAllTransaction()
           },
         ),
       ),
