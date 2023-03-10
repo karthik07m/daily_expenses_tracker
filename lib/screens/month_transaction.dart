@@ -45,7 +45,7 @@ class _MonthTransactionState extends State<MonthTransaction> {
               child: FittedBox(
                 child: Chip(
                     backgroundColor: Colors.redAccent,
-                    label: Text(UtilityFunction.addComma(expenses.toString()),
+                    label: Text(UtilityFunction.addComma(expenses),
                         style: TextStyle(fontSize: 25))),
               ),
             ),
@@ -55,7 +55,7 @@ class _MonthTransactionState extends State<MonthTransaction> {
                 child: Chip(
                   backgroundColor: Colors.greenAccent,
                   label: Text(
-                    UtilityFunction.addComma(income.toString()),
+                    UtilityFunction.addComma(income),
                     style: TextStyle(
                       fontSize: 25,
                     ),

@@ -114,8 +114,8 @@ class UtilityFunction {
   }
   /* End */
 
-  static String addComma(var value) {
-    String amount = value.toString();
+  static String addComma(double value) {
+    String amount = value.toStringAsFixed(2);
     currency = CurrencyProvider.currentCurrency;
     print("CURRENR CURRENCY -  $currency");
     String finalAmount = amount.replaceAllMapped(

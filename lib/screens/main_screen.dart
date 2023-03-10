@@ -1,5 +1,6 @@
 import 'package:coinsaver/helper/db_helper.dart';
 import 'package:coinsaver/screens/add_expense.dart';
+import 'package:coinsaver/screens/view_all_transaction.dart';
 import 'package:coinsaver/utilities/currency.dart';
 
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int currentIndex = 2;
+  int currentIndex = 0;
 
   @override
   void initState() {
@@ -99,14 +100,13 @@ class _MainScreenState extends State<MainScreen> {
     switch (index) {
       case 0:
         return Text(
-          "Day Expenses",
+          "Home",
           style: TextStyle(color: kBackgroundColor),
         );
       case 1:
         return Text("Week Expenses", style: TextStyle(color: kBackgroundColor));
       case 2:
-        return Text("Month Expenses",
-            style: TextStyle(color: kBackgroundColor));
+        return Text("Year Expenses", style: TextStyle(color: kBackgroundColor));
 
       default:
         return Text("Year Expenses", style: TextStyle(color: kBackgroundColor));
@@ -116,13 +116,13 @@ class _MainScreenState extends State<MainScreen> {
   Widget getCurrentScreen(int index) {
     switch (index) {
       case 0:
-        return DayTransaction(true);
+        return MonthTransaction();
       case 1:
         return WeekTransaction();
       case 2:
-        return MonthTransaction();
-      case 3:
         return YearlyTransaction();
+      case 3:
+        return ViewAllTransaction();
       default:
         return DayTransaction(true);
     }
@@ -197,13 +197,13 @@ class _MainScreenState extends State<MainScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
-                                      Icons.money_outlined,
+                                      Icons.calendar_month,
                                       color: currentIndex == 0
                                           ? kPrimaryColor
                                           : Colors.grey.shade400,
                                     ),
                                     Text(
-                                      "Day",
+                                      "Home",
                                       style: TextStyle(
                                         color: currentIndex == 0
                                             ? kPrimaryColor
@@ -248,13 +248,13 @@ class _MainScreenState extends State<MainScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
-                                      Icons.calendar_today,
+                                      Icons.track_changes,
                                       color: currentIndex == 2
                                           ? kPrimaryColor
                                           : Colors.grey.shade400,
                                     ),
                                     Text(
-                                      "Month",
+                                      "Year",
                                       style: TextStyle(
                                         color: currentIndex == 2
                                             ? kPrimaryColor
@@ -272,13 +272,13 @@ class _MainScreenState extends State<MainScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(
-                                      Icons.timeline,
+                                      Icons.all_inbox,
                                       color: currentIndex == 3
                                           ? kPrimaryColor
                                           : Colors.grey.shade400,
                                     ),
                                     Text(
-                                      "Year",
+                                      "Transactions",
                                       style: TextStyle(
                                         color: currentIndex == 3
                                             ? kPrimaryColor

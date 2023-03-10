@@ -1,12 +1,12 @@
 // import 'package:Navigation/screens/category_meal_screen.dart';
 import 'package:coinsaver/utilities/common_functions.dart';
-import 'package:coinsaver/utilities/constants.dart';
+
 import 'package:flutter/material.dart';
 
 class MonthItem extends StatelessWidget {
   final String title;
-  final String expenses;
-  final String income;
+  final double expenses;
+  final double income;
 
   MonthItem(this.expenses, this.income, this.title);
 
@@ -31,15 +31,29 @@ class MonthItem extends StatelessWidget {
               title,
               style: Theme.of(context).textTheme.caption,
             ),
-            Text(UtilityFunction.addComma(expenses)),
-            Expanded(child: Text(UtilityFunction.addComma(income)))
+            Flexible(
+                flex: 2,
+                child: Chip(
+                    backgroundColor: Colors.greenAccent,
+                    label: Text(UtilityFunction.addComma(income)))),
+            Flexible(
+              flex: 2,
+              child: Chip(
+                label: Text(
+                  UtilityFunction.addComma(expenses),
+                  // style: TextStyle(fontSize: 8),
+                ),
+                backgroundColor: Colors.redAccent,
+              ),
+            ),
           ],
         ),
         decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [kPrimaryColor.withOpacity(0.7), kPrimaryColor],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight),
+            // gradient: LinearGradient(
+            //     colors: [kPrimaryColor.withOpacity(0.7), kPrimaryColor],
+            //     begin: Alignment.topLeft,
+            //     end: Alignment.bottomRight),
+            color: Color.fromARGB(255, 241, 241, 241),
             borderRadius: BorderRadius.circular(10)),
       ),
     );

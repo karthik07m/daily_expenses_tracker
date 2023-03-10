@@ -66,17 +66,15 @@ class YearlyTransaction extends StatelessWidget {
                             padding: const EdgeInsets.all(10),
                             children: value
                                 .eachMonthAmount()
-                                .map((yr) => MonthItem(
-                                    yr.total.expensesTotal.toString(),
-                                    yr.total.incomeTotal.toString(),
-                                    yr.month))
+                                .map((yr) => MonthItem(yr.total.expensesTotal,
+                                    yr.total.incomeTotal, yr.month))
                                 .toList(),
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
-                              childAspectRatio: 3 / 2,
-                              crossAxisSpacing: 20,
-                              mainAxisSpacing: 20,
+                              childAspectRatio: 3 / 3,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
                             )),
                       ),
                       // IncomeBar(

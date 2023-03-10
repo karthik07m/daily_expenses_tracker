@@ -1,5 +1,4 @@
 import 'package:coinsaver/models/transaction.dart';
-import 'package:coinsaver/screens/view_all_transaction.dart';
 import 'package:coinsaver/utilities/constants.dart';
 import 'package:coinsaver/widgets/income_expenses_ta.dart';
 import 'package:coinsaver/widgets/transaction_item.dart';
@@ -54,28 +53,28 @@ class DayTransaction extends StatelessWidget {
               .where((element) => element.isIncome == 1)
               .toList();
 
-          var exTotalAmount = expensesItems.isEmpty
+          double exTotalAmount = expensesItems.isEmpty
               ? 0
               : transactionData
                   .totalAmount(expensesItems.map((e) => e.amount).toList());
 
-          var inTotalAmount = incomeItems.isEmpty
+          double inTotalAmount = incomeItems.isEmpty
               ? 0
               : transactionData
                   .totalAmount(incomeItems.map((e) => e.amount).toList());
 
-          var totalAvailBal = inTotalAmount - exTotalAmount;
+          double totalAvailBal = inTotalAmount - exTotalAmount;
 
           return Column(
             children: [
-              InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ViewAllTransaction()));
-                  },
-                  child: Text("View all")),
+              // InkWell(
+              //     onTap: () {
+              //       Navigator.push(
+              //           context,
+              //           MaterialPageRoute(
+              //               builder: (context) => ViewAllTransaction()));
+              //     },
+              //     child: Text("View all")),
               arguments == null
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -144,7 +143,7 @@ class DayTransaction extends StatelessWidget {
                       child: ListView.builder(
                           itemCount: transactionData.items.length,
                           itemBuilder: (ctx, i) =>
-                              TransactionItem(transactionData.items[i])),
+                              TransactionItem(transactionData.items[i], true)),
                     ),
             ],
           );

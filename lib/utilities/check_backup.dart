@@ -42,7 +42,6 @@ class _BackUpDataState extends State<BackUpData> {
 
                 Directory copyTo = Directory(result);
                 if ((await copyTo.exists())) {
-                  // print("Path exist");
                   var status = await Permission.storage.status;
                   if (!status.isGranted) {
                     await Permission.storage.request();
@@ -58,7 +57,10 @@ class _BackUpDataState extends State<BackUpData> {
                 }
 
                 String newPath = "${copyTo.path}/transaction.db";
+                //final file = File(newPath);
+
                 await source1.copy(newPath);
+                //print(file);
 
                 setState(() {
                   message = 'Successfully Copied DB';
@@ -70,17 +72,17 @@ class _BackUpDataState extends State<BackUpData> {
               },
               child: const Text('Copy DB'),
             ),
-            ElevatedButton(
-              onPressed: () async {
-                var databasesPath = await getDatabasesPath();
-                var dbPath = join(databasesPath, 'transaction.db');
-                await deleteDatabase(dbPath);
-                setState(() {
-                  message = 'Successfully deleted DB';
-                });
-              },
-              child: const Text('Delete DB'),
-            ),
+            // ElevatedButton(
+            //   onPressed: () async {
+            //     var databasesPath = await getDatabasesPath();
+            //     var dbPath = join(databasesPath, 'transaction.db');
+            //     await deleteDatabase(dbPath);
+            //     setState(() {
+            //       message = 'Successfully deleted DB';
+            //     });
+            //   },
+            //   child: const Text('Delete DB'),
+            // ),
             ElevatedButton(
               onPressed: () async {
                 var databasesPath = await getDatabasesPath();

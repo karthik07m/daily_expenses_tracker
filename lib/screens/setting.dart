@@ -1,5 +1,7 @@
+import 'package:coinsaver/utilities/check_backup.dart';
 import 'package:coinsaver/utilities/currency.dart';
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 
 const List<String> currencyArr = ["₹", "\$"];
@@ -46,32 +48,49 @@ class _SettingsState extends State<Settings> {
         appBar: AppBar(
           title: Text("Settings"),
         ),
-        body: Consumer<CurrencyProvider>(
-            builder: (ctx, currencyProvider, ch) => Column(
-                  children: [
-                    InkWell(
-                      onTap: () async {
-                        final String? currency =
-                            await _asyncSimpleDialog(context);
-                        currencyProvider.setCurrency(currency.toString());
-                        print(currency);
-                        currencyProvider.getCurrency();
-                      },
-                      child: Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: ListTile(
-                                  title: Text("Currency"),
-                                  trailing:
-                                      Text(CurrencyProvider.currentCurrency)),
-                            )
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                )));
+        body: Column(
+          children: [
+            Consumer<CurrencyProvider>(
+                builder: (ctx, currencyProvider, ch) => Column(
+                      children: [
+                        InkWell(
+                          onTap: () async {
+                            final String? currentValue =
+                                await _asyncSimpleDialog(context);
+
+                            String? currency = currentValue == null
+                                ? CurrencyProvider.currentCurrency
+                                : currentValue;
+                            currencyProvider.setCurrency(currency.toString());
+
+                            currencyProvider.getCurrency();
+                          },
+                          child: Container(
+                            child: ListTile(
+                              leading: Icon(Icons.currency_exchange),
+                              title: Text("Currency"),
+                              trailing: Text(
+                                CurrencyProvider.currentCurrency,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    )),
+            InkWell(
+              onTap: () =>
+                  Navigator.of(context).pushNamed(BackUpData.routeName),
+              child: Container(
+                child: ListTile(
+                  leading: Icon(Icons.backup),
+                  title: Text("Back Up"),
+                  // trailing: Text(
+                  //   CurrencyProvider.currentCurrency,
+                  // ),
+                ),
+              ),
+            ),
+          ],
+        ));
   }
 }

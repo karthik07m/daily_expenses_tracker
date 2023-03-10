@@ -104,7 +104,7 @@ class MyApp extends StatelessWidget {
             PieChart.routeName: (ctx) => PieChart(),
             Settings.routeName: (ctx) => Settings(),
             BackUpData.routeName: (ctx) => BackUpData(
-                  title: "Test",
+                  title: "Beta-Version",
                 ),
             AppInfo.routeName: (ctx) => AppInfo(),
             ViewAllTransaction.routeName: (ctx) => ViewAllTransaction()

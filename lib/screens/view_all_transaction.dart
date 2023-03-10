@@ -13,22 +13,22 @@ class ViewAllTransaction extends StatelessWidget {
     return FutureBuilder(
         future: Provider.of<Transactions>(context, listen: false)
             .fetchTransactionDetails(),
-        builder: (ctx, snapshot) =>
-            snapshot.connectionState == ConnectionState.waiting
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: kPrimaryColor,
-                    ),
-                  )
-                : Scaffold(
-                    appBar: AppBar(title: const Text("All Transcations")),
-                    body: Consumer<Transactions>(
-                      builder: (context, transactionData, child) =>
-                          ListView.builder(
-                              itemCount: transactionData.items.length,
-                              itemBuilder: (ctx, i) =>
-                                  TransactionItem(transactionData.items[i])),
-                    ),
-                  ));
+        builder: (ctx, snapshot) => snapshot.connectionState ==
+                ConnectionState.waiting
+            ? Center(
+                child: CircularProgressIndicator(
+                  color: kPrimaryColor,
+                ),
+              )
+            : Scaffold(
+                appBar: AppBar(title: const Text("All Transcations")),
+                body: Consumer<Transactions>(
+                  builder: (context, transactionData, child) =>
+                      ListView.builder(
+                          itemCount: transactionData.items.length,
+                          itemBuilder: (ctx, i) =>
+                              TransactionItem(transactionData.items[i], false)),
+                ),
+              ));
   }
 }

@@ -65,3 +65,16 @@ const gitUrl = "https://github.com/karthik07m";
 
 const linkdinUrl =
     "https://www.linkedin.com/in/mani-karthik-bollimuntha-b30268b7/";
+
+final List<Map<String, dynamic>> menuItem = [
+  {
+    "title": "Currency",
+    "icon": Icon(Icons.currency_exchange),
+    //"selected": false,
+  },
+  {
+    "title": "Backup",
+    "icon": Icon(Icons.backup),
+    //"selected": true,
+  }
+];

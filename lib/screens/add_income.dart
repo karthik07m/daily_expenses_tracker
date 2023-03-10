@@ -147,7 +147,7 @@ class _AddIncomeState extends State<AddIncome> {
                                     Expanded(
                                       child: Chip(
                                           label: Text(UtilityFunction.addComma(
-                                              income.toString()))),
+                                              income))),
                                     ),
                                     Flexible(
                                       child: IconButton(
