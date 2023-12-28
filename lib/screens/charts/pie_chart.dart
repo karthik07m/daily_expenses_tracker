@@ -61,7 +61,7 @@ class _PieChartState extends State<PieChart> {
                                 fontSize: 18,
                                 color: Theme.of(context)
                                     .textTheme
-                                    .bodyText1!
+                                    .bodyLarge!
                                     .color),
                           ),
                           IconButton(
@@ -95,7 +95,7 @@ class _PieChartState extends State<PieChart> {
                                           fontSize: 16,
                                           color: Theme.of(context)
                                               .textTheme
-                                              .bodyText1!
+                                              .bodyLarge!
                                               .color),
                                       text:
                                           ' ${UtilityFunction.getOnlyMonth(today)} Expenses : ${UtilityFunction.addComma(pieData.items.first.totalAmount)}'),

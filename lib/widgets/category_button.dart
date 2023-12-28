@@ -1,3 +1,5 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import '../../utilities/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +14,9 @@ class CategoryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Card(
-      color: _isSelected ? kSelectionColor : Theme.of(context).backgroundColor,
+      color: _isSelected
+          ? kSelectionColor
+          : Theme.of(context).colorScheme.background,
       child: Container(
         width: size.height * 0.16,
         height: 100,
@@ -20,9 +24,9 @@ class CategoryButton extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            FaIcon(
               icon,
-              size: 50,
+              size: 40,
               color: kPrimaryColor,
             ),
             FittedBox(

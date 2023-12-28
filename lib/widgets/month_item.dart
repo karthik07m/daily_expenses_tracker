@@ -10,17 +10,9 @@ class MonthItem extends StatelessWidget {
 
   MonthItem(this.expenses, this.income, this.title);
 
-  // void _submitDate(BuildContext context) {
-  //   Navigator.of(context).pushNamed(CategoryMealScreen.routeName,
-  //       arguments: {'id': id, 'title': title});
-  // }
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        // _submitDate(context);
-      },
       splashColor: Theme.of(context).primaryColor,
       borderRadius: BorderRadius.circular(10),
       child: Container(
@@ -29,7 +21,7 @@ class MonthItem extends StatelessWidget {
           children: [
             Text(
               title,
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
             Flexible(
                 flex: 2,
@@ -41,7 +33,6 @@ class MonthItem extends StatelessWidget {
               child: Chip(
                 label: Text(
                   UtilityFunction.addComma(expenses),
-                  // style: TextStyle(fontSize: 8),
                 ),
                 backgroundColor: Colors.redAccent,
               ),
@@ -49,10 +40,6 @@ class MonthItem extends StatelessWidget {
           ],
         ),
         decoration: BoxDecoration(
-            // gradient: LinearGradient(
-            //     colors: [kPrimaryColor.withOpacity(0.7), kPrimaryColor],
-            //     begin: Alignment.topLeft,
-            //     end: Alignment.bottomRight),
             color: Color.fromARGB(255, 241, 241, 241),
             borderRadius: BorderRadius.circular(10)),
       ),

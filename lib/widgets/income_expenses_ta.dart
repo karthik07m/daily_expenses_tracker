@@ -10,16 +10,22 @@ class TotalAmountView extends StatelessWidget {
 
   Widget _amountContainer(String title, var amount, bool isIncome) {
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.only(bottom: 8, left: 10, right: 10, top: 8),
       decoration: BoxDecoration(
         color: isIncome ? Colors.greenAccent[400] : Colors.redAccent[400],
         borderRadius: BorderRadius.all(
-          Radius.circular(28),
+          Radius.circular(20),
         ),
       ),
       child: Row(
         children: [
-          Icon(isIncome ? Icons.arrow_circle_up : Icons.arrow_circle_down),
+          Icon(
+            isIncome ? Icons.arrow_circle_up : Icons.arrow_circle_down,
+            color: Colors.white,
+          ),
+          SizedBox(
+            width: 05,
+          ),
           Column(
             children: [
               Text(

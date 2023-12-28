@@ -1,5 +1,6 @@
 import '../helper/db_helper.dart';
 
+import '../models/month_expense.dart';
 import '../models/transaction.dart';
 import '../utilities/constants.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,13 @@ class EachMonthTotal {
 class Transactions with ChangeNotifier {
   List<Transaction> _items = [];
   List<Map<String, dynamic>> _monthAmounts = [];
+
   List<Map<String, dynamic>> _yrAmounts = [];
+
+  List<Map<String, dynamic>> categoryAmounts = [];
+
+  List<Transaction> amountsByCategory = [];
+  List<MonthExpense> monthExpenses = [];
   List<Transaction> get items {
     return [..._items];
   }
@@ -190,7 +197,6 @@ class Transactions with ChangeNotifier {
     }).toList();
 
     _yrTransData = finalDatalist;
-    print("year data $_monthAmounts");
 
     return _yrTransData;
   }
@@ -264,6 +270,48 @@ class Transactions with ChangeNotifier {
     final datalist =
         await DBHelper.getDateBwtData('transaction_data', startDate, lastDate);
     _monthAmounts = datalist;
+
+    notifyListeners();
+  }
+
+  Future<void> fetchCategoryAmounts(DateTime current) async {
+    var startDate = DateTime(current.year, current.month, 01).toString();
+    var endDate = DateTime(current.year, current.month, 31).toString();
+    print(endDate);
+    final datalist = await DBHelper.getMonthCategoryTransactionDetails(
+        'transaction_data', startDate, endDate);
+    categoryAmounts = datalist;
+
+    notifyListeners();
+  }
+
+  Future<void> fetchCategoryAmount(DateTime current, String category) async {
+    var startDate = DateTime(current.year, current.month, 01).toString();
+    var endDate = DateTime(current.year, current.month, 31).toString();
+    print(endDate);
+    final datalist = await DBHelper.getMonthTransactionByCategory(
+        'transaction_data', startDate, endDate, category);
+    amountsByCategory = datalist
+        .map((items) => Transaction(
+            id: items['id'],
+            isIncome: items['isIncome'],
+            title: items['title'],
+            amount: items['amount'],
+            category: items['category'],
+            date: DateTime.parse(items['date'])))
+        .toList();
+
+    notifyListeners();
+  }
+
+  Future<void> getMonthExpenses(bool isIncome) async {
+    final datalist = await DBHelper.getEveryMonthExpenses(isIncome);
+    monthExpenses = datalist
+        .map((items) => MonthExpense(
+              month: items['month'],
+              totalMount: items['total_income'],
+            ))
+        .toList();
 
     notifyListeners();
   }

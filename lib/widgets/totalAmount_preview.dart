@@ -5,31 +5,30 @@ class TotalAmountPreview extends StatelessWidget {
   final totalAmount;
   final title;
   final double fontSize;
+  final color;
   const TotalAmountPreview(
       {Key? key,
       required this.totalAmount,
       required this.title,
-      required this.fontSize})
+      required this.fontSize,
+      this.color})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Flexible(
-          child: Text('$title : ',
-              style: TextStyle(
-                  fontSize: fontSize,
-                  color: Theme.of(context).textTheme.bodyText1!.color)),
-        ),
-        Flexible(
-          child: Chip(
-              label: Text(
-            UtilityFunction.addComma(totalAmount),
-            style: TextStyle(fontSize: fontSize - 1),
-          )),
-        )
+        Text('$title',
+            style: TextStyle(
+                fontSize: fontSize,
+                color: Theme.of(context).textTheme.bodyLarge!.color)),
+        Chip(
+            backgroundColor: color,
+            label: Text(
+              UtilityFunction.addComma(totalAmount),
+              style: TextStyle(fontSize: fontSize - 1),
+            )),
       ],
     );
   }

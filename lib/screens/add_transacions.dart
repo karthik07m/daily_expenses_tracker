@@ -15,23 +15,8 @@ class _AddTransactionsState extends State<AddTransactions> {
     return Scaffold(
       body: SafeArea(
         child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                    alignment: Alignment.topLeft,
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    icon: Icon(
-                      Icons.close_rounded,
-                      color: Colors.red,
-                    )),
-              ],
-            ),
-            Expanded(child: AddExpense())
-          ],
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [Expanded(child: AddExpense())],
         ),
       ),
     );

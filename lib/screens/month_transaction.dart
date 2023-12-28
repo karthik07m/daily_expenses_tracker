@@ -1,15 +1,16 @@
-import 'package:coinsaver/widgets/income_bar.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../utilities/constants.dart';
 import '../../utilities/common_functions.dart';
+
 import '../providers/transactions.dart';
 
 import '../screens/day_transaction.dart';
+import '../widgets/calender_header.dart';
 import '../widgets/totalAmount_preview.dart';
+import 'month_category_transactions.dart';
 
 class MonthTransaction extends StatefulWidget {
   const MonthTransaction({Key? key}) : super(key: key);
@@ -23,7 +24,8 @@ class _MonthTransactionState extends State<MonthTransaction> {
   DateTime now = DateTime.now();
   ValueNotifier<DateTime> _focusedDay = ValueNotifier(DateTime.now());
   DateTime? _selectedDay;
-
+  late PageController _pageController;
+  var monthExpens;
   Widget dailyExpenses(context, day, focusedDay) {
     var amounts = Provider.of<Transactions>(context, listen: false)
         .eachDayTotalAmount(day);
@@ -75,20 +77,51 @@ class _MonthTransactionState extends State<MonthTransaction> {
     super.didChangeDependencies();
   }
 
+  Future<void> _refreshTransaction(BuildContext context) async {
+    monthExpens =
+        Provider.of<Transactions>(context, listen: false).sumAmounts();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var monthExpens =
+    monthExpens =
         Provider.of<Transactions>(context, listen: false).sumAmounts();
 
     final Size size = MediaQuery.of(context).size;
 
-    return SingleChildScrollView(
+    return RefreshIndicator(
+      onRefresh: () => _refreshTransaction(context),
       child: Container(
         height: size.height <= 521 ? size.height : size.height * 0.80,
-        child: Column(
-          children: [
+        child: SingleChildScrollView(
+          child: Column(children: [
+            ValueListenableBuilder<DateTime>(
+              valueListenable: _focusedDay,
+              builder: (context, value, _) {
+                return CalendarHeader(
+                  focusedDay: value,
+                  onTodayButtonTap: () {
+                    setState(() => _focusedDay.value = DateTime.now());
+                  },
+                  onLeftArrowTap: () {
+                    _pageController.previousPage(
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.easeOut,
+                    );
+                  },
+                  onRightArrowTap: () {
+                    _pageController.nextPage(
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.easeOut,
+                    );
+                  },
+                );
+              },
+            ),
             TableCalendar(
-              onCalendarCreated: (_) async {
+              headerVisible: false,
+              pageAnimationEnabled: true,
+              onCalendarCreated: (controller) async {
                 if (_isInit) {
                   await Provider.of<Transactions>(context, listen: false)
                       .fetchMonthAmounts(now);
@@ -96,6 +129,7 @@ class _MonthTransactionState extends State<MonthTransaction> {
                   setState(() {});
                   _isInit = false;
                 }
+                _pageController = controller;
               },
               onPageChanged: (focusedDay) async {
                 await Provider.of<Transactions>(context, listen: false)
@@ -133,7 +167,7 @@ class _MonthTransactionState extends State<MonthTransaction> {
               }, defaultBuilder: (context, day, focusedDay) {
                 return dailyExpenses(context, day, focusedDay);
               }),
-              firstDay: DateTime.utc(2010, 10, 16),
+              firstDay: DateTime.utc(2021, 10, 16),
               lastDay: DateTime.utc(
                   now.year,
                   now.month,
@@ -141,23 +175,42 @@ class _MonthTransactionState extends State<MonthTransaction> {
                       .day),
               focusedDay: _focusedDay.value,
             ),
-            Flexible(
-              child: Column(
-                children: [
-                  if (size.height > 522)
-                    TotalAmountPreview(
-                      title: "Total Income",
-                      totalAmount: monthExpens.incomeTotal,
-                      fontSize: 16,
-                    ),
-                  IncomeBar(
-                    spent: monthExpens.expensesTotal,
-                    total: monthExpens.incomeTotal,
-                  )
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                if (size.height > 522)
+                  TotalAmountPreview(
+                    title: "Income",
+                    totalAmount: monthExpens.incomeTotal,
+                    fontSize: 16,
+                    color: Colors.greenAccent,
+                  ),
+                TotalAmountPreview(
+                  title: "Expenses",
+                  totalAmount: monthExpens.expensesTotal,
+                  fontSize: 16,
+                  color: Colors.redAccent,
+                ),
+                TotalAmountPreview(
+                  title: "Remaining",
+                  totalAmount:
+                      monthExpens.incomeTotal - monthExpens.expensesTotal,
+                  fontSize: 16,
+                ),
+                // IncomeBar(
+                //   spent: monthExpens.expensesTotal,
+                //   total: monthExpens.incomeTotal,
+                // )
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            //Container(height: 400, child: ExpenseChart())
+            MonthCategoryTransactions(
+              currentDay: _focusedDay.value,
             )
-          ],
+          ]),
         ),
       ),
     );

@@ -67,14 +67,6 @@ class DayTransaction extends StatelessWidget {
 
           return Column(
             children: [
-              // InkWell(
-              //     onTap: () {
-              //       Navigator.push(
-              //           context,
-              //           MaterialPageRoute(
-              //               builder: (context) => ViewAllTransaction()));
-              //     },
-              //     child: Text("View all")),
               arguments == null
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -98,7 +90,7 @@ class DayTransaction extends StatelessWidget {
                                     fontSize: 16,
                                     color: Theme.of(context)
                                         .textTheme
-                                        .bodyText1!
+                                        .bodyLarge!
                                         .color),
                               )),
                         ),
@@ -178,7 +170,7 @@ class DayTransaction extends StatelessWidget {
                               backgroundColor: kPrimaryColor,
                               child: Icon(
                                 Icons.add,
-                                color: Theme.of(context).backgroundColor,
+                                color: Theme.of(context).colorScheme.background,
                               ),
                               elevation: 0.1,
                               onPressed: () {

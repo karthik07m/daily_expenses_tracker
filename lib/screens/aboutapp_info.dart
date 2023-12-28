@@ -51,7 +51,7 @@ class _AppInfoState extends State<AppInfo> {
                     appName,
                     style: TextStyle(
                         fontSize: 20,
-                        color: Theme.of(context).textTheme.bodyText1!.color),
+                        color: Theme.of(context).textTheme.bodyLarge?.color),
                   ),
                 ],
               ),
@@ -85,7 +85,7 @@ class _AppInfoState extends State<AppInfo> {
                                 fontSize: 18,
                                 color: Theme.of(context)
                                     .textTheme
-                                    .bodyText1!
+                                    .bodyLarge!
                                     .color),
                           ),
                           IconButton(
@@ -135,7 +135,7 @@ class _AppInfoState extends State<AppInfo> {
                                         path: mailAdress,
                                       );
 
-                                      launch(emailLaunchUri.toString());
+                                      launchUrl(emailLaunchUri);
                                     },
                                     icon: Icon(
                                       Icons.mail_outline,
@@ -147,10 +147,8 @@ class _AppInfoState extends State<AppInfo> {
                                     width: 16,
                                   ),
                                   InkWell(
-                                    onTap: () async {
-                                      await canLaunch(gitUrl)
-                                          ? await launch(gitUrl)
-                                          : throw 'Could not launch $gitUrl';
+                                    onTap: () {
+                                      launchUrl(Uri.parse(gitUrl));
                                     },
                                     child: Image.asset(
                                       "assets/icon/github.png",
@@ -162,10 +160,8 @@ class _AppInfoState extends State<AppInfo> {
                                     width: 20,
                                   ),
                                   InkWell(
-                                    onTap: () async {
-                                      await canLaunch(linkdinUrl)
-                                          ? await launch(linkdinUrl)
-                                          : throw 'Could not launch $gitUrl';
+                                    onTap: () {
+                                      launchUrl(Uri.parse(linkdinUrl));
                                     },
                                     child: Image.asset(
                                       "assets/icon/linkedin.png",
@@ -204,7 +200,7 @@ class _AppInfoState extends State<AppInfo> {
                                     fontSize: 18,
                                     color: Theme.of(context)
                                         .textTheme
-                                        .bodyText1!
+                                        .bodyLarge!
                                         .color),
                               ),
                               IconButton(

@@ -11,13 +11,15 @@ import 'package:timezone/timezone.dart' as tz;
 
 import '../main.dart';
 import '../../utilities/constants.dart';
+import 'charts/barchart.dart';
 import '../providers/theme.dart';
 import '../screens/day_transaction.dart';
 import '../screens/month_transaction.dart';
-import '../screens/week_transaction.dart';
+
 import '../screens/year_transaction.dart';
 import '../widgets/home_drawer.dart';
 import 'add_transacions.dart';
+import 'home_transactions.dart';
 
 class MainScreen extends StatefulWidget {
   static const routeName = "/mainScreen";
@@ -72,9 +74,9 @@ class _MainScreenState extends State<MainScreen> {
         _nextInstanceOfTenAM(),
         const NotificationDetails(
           android: AndroidNotificationDetails(
-              'daily notification channel id',
-              'daily notification channel name',
-              'daily notification description'),
+            'daily notification channel id',
+            'daily notification channel name',
+          ),
         ),
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
@@ -116,13 +118,15 @@ class _MainScreenState extends State<MainScreen> {
   Widget getCurrentScreen(int index) {
     switch (index) {
       case 0:
-        return MonthTransaction();
+        return HomeTransactions();
       case 1:
-        return WeekTransaction();
+        return ExpenseChart();
       case 2:
         return YearlyTransaction();
       case 3:
-        return ViewAllTransaction();
+        return ViewAllTransaction(
+          isHome: true,
+        );
       default:
         return DayTransaction(true);
     }
@@ -175,7 +179,7 @@ class _MainScreenState extends State<MainScreen> {
                               backgroundColor: kPrimaryColor,
                               child: Icon(
                                 Icons.add,
-                                color: Theme.of(context).backgroundColor,
+                                color: Theme.of(context).colorScheme.background,
                               ),
                               elevation: 0.1,
                               onPressed: () {
@@ -310,7 +314,7 @@ class BNBCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = new Paint()
-      ..color = Theme.of(context).backgroundColor
+      ..color = Theme.of(context).colorScheme.background
       ..style = PaintingStyle.fill;
 
     Path path = Path();

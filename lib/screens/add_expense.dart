@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +25,9 @@ class _AddExpenseState extends State<AddExpense> {
   final _form = GlobalKey<FormState>();
   bool _intial = true;
   bool _edit = false;
+
+  final FocusNode _focusNodeDescription = FocusNode();
+  final FocusNode _focusTitle = FocusNode();
 
   Transaction _transaction = Transaction(
       id: DateTime.now().toString(),
@@ -55,8 +59,12 @@ class _AddExpenseState extends State<AddExpense> {
   }
 
   void showCategorties() {
+    _focusNodeDescription.unfocus();
+    _focusTitle.unfocus();
+
     showModalBottomSheet<void>(
         context: context,
+        showDragHandle: true,
         builder: (BuildContext context) {
           final Size size = MediaQuery.of(context).size;
           return Padding(
@@ -174,12 +182,14 @@ class _AddExpenseState extends State<AddExpense> {
   void didChangeDependencies() {
     if (_intial) {
       Object? transactionId = ModalRoute.of(context)!.settings.arguments;
-      print("test ${transactionId.runtimeType}");
+
       if (transactionId != null && transactionId.runtimeType == String) {
         _transaction = Provider.of<Transactions>(context, listen: false)
             .findById(transactionId.toString());
+
         _selectedDate = _transaction.date;
         _category = _transaction.category;
+        _expenses = _transaction.isIncome == 0;
 
         _edit = true;
         _intial = false;
@@ -217,15 +227,6 @@ class _AddExpenseState extends State<AddExpense> {
 
   @override
   Widget build(BuildContext context) {
-    // final routeArguments =
-    //     ModalRoute.of(context)!.settings.arguments as Map<String, String>;
-    // print("route arugment $routeArguments");
-    // final date =
-    //     routeArguments == null ? DateTime.now() : routeArguments as DateTime;
-    // print(date);
-    // if (!_isDateEdited) {
-    //   _selectedDate = date;
-    // }
     return Scaffold(
       body: Form(
         key: _form,
@@ -238,13 +239,13 @@ class _AddExpenseState extends State<AddExpense> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Flexible(
-                      flex: 4,
+                      flex: 6,
                       fit: FlexFit.tight,
                       child: OutlinedButton(
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(_expenses
                                 ? Theme.of(context).colorScheme.secondary
-                                : Theme.of(context).backgroundColor)),
+                                : Theme.of(context).colorScheme.background)),
                         child: Text(
                           "Expense",
                           style: TextStyle(fontSize: 20, color: kPrimaryColor),
@@ -258,15 +259,15 @@ class _AddExpenseState extends State<AddExpense> {
                       ),
                     ),
                     SizedBox(
-                      width: 5,
+                      width: 10,
                     ),
                     Flexible(
-                      flex: 4,
+                      flex: 6,
                       fit: FlexFit.tight,
                       child: OutlinedButton(
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(_expenses
-                                ? Theme.of(context).backgroundColor
+                                ? Theme.of(context).colorScheme.background
                                 : Theme.of(context).colorScheme.secondary)),
                         child: Text(
                           "Income",
@@ -280,11 +281,26 @@ class _AddExpenseState extends State<AddExpense> {
                         },
                       ),
                     ),
-                    SizedBox(
-                      width: 10,
-                    )
+                    Flexible(
+                      flex: 2,
+                      fit: FlexFit.tight,
+                      child: IconButton(
+                        alignment: Alignment.center,
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        icon: FaIcon(
+                          FontAwesomeIcons.circleXmark,
+                          size: 24,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
+              ),
+              SizedBox(
+                height: 15,
               ),
               TextFormField(
                 initialValue: _transaction.amount == 0.0
@@ -297,9 +313,9 @@ class _AddExpenseState extends State<AddExpense> {
                     labelText: 'Amount',
                     // prefixIcon: ,
                     prefixText: UtilityFunction.currency,
-                    suffixText: 'INR',
                     suffixStyle: const TextStyle(color: Colors.green)),
                 keyboardType: TextInputType.number,
+                focusNode: _focusTitle,
                 maxLength: 10,
                 validator: (value) {
                   return value!.isEmpty ||
@@ -375,7 +391,7 @@ class _AddExpenseState extends State<AddExpense> {
                         IconButton(
                             icon: Icon(
                               UtilityFunction.getIcon(_category),
-                              size: 40,
+                              size: 30,
                               color: kPrimaryColor,
                             ),
                             onPressed: showCategorties),
@@ -403,11 +419,9 @@ class _AddExpenseState extends State<AddExpense> {
                     labelText: 'Item(s) / Notes',
                     suffixStyle: const TextStyle(color: Colors.green)),
                 maxLength: 250,
-                maxLines: 3,
+                maxLines: 6,
+                focusNode: _focusNodeDescription,
                 keyboardType: TextInputType.multiline,
-                // validator: (value) {
-                //   return value!.isEmpty ? "Please enter a title" : null;
-                // },
                 onSaved: (value) {
                   _transaction = Transaction(
                       id: _transaction.id,
@@ -417,21 +431,27 @@ class _AddExpenseState extends State<AddExpense> {
                       date: _transaction.date,
                       category: _transaction.category);
                 },
-              )
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    _saveData(context);
+                  },
+                  child: Text("Save"))
             ],
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: kPrimaryColor,
-          child: Icon(
-            Icons.save,
-            color: Theme.of(context).backgroundColor,
-          ),
-          elevation: 0.1,
-          onPressed: () {
-            _saveData(context);
-          }),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+      // floatingActionButton: FloatingActionButton(
+      //     backgroundColor: kPrimaryColor,
+      //     child: Icon(
+      //       Icons.save,
+      //       color: Theme.of(context).colorScheme.background,
+      //     ),
+      //     elevation: 0.1,
+      //     onPressed: () {
+      //       _saveData(context);
+      //     }),
     );
   }
 }

@@ -22,10 +22,8 @@ class MainDrawer extends StatelessWidget {
         style: TextStyle(fontSize: 18, color: kPrimaryColor),
       ),
       onTap: isUrl
-          ? () async {
-              await canLaunch(route)
-                  ? await launch(route)
-                  : throw 'Could not launch $route';
+          ? () {
+              launchUrl(Uri.parse(route));
             }
           : () {
               isHome

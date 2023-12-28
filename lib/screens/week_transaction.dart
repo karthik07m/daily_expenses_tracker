@@ -123,7 +123,9 @@ class WeekTransaction extends StatelessWidget {
                                             // Theme.of(context)
                                             //     .colorScheme
                                             //     .secondary
-                                            : Theme.of(context).backgroundColor,
+                                            : Theme.of(context)
+                                                .colorScheme
+                                                .background,
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
@@ -134,7 +136,7 @@ class WeekTransaction extends StatelessWidget {
                                               style: TextStyle(
                                                   color: Theme.of(context)
                                                       .textTheme
-                                                      .bodyText1!
+                                                      .bodyLarge!
                                                       .color),
                                             ),
                                             Text(
@@ -142,7 +144,7 @@ class WeekTransaction extends StatelessWidget {
                                               style: TextStyle(
                                                   color: Theme.of(context)
                                                       .textTheme
-                                                      .bodyText1!
+                                                      .bodyLarge!
                                                       .color),
                                             ),
                                             Row(

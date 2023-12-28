@@ -9,12 +9,12 @@ class ThemeProvider extends ChangeNotifier {
           ColorScheme.fromSwatch().copyWith(secondary: Colors.greenAccent));
   IconData icon = Icons.brightness_3_sharp;
   static ThemeData light = ThemeData(
-    textTheme: TextTheme(bodyText1: TextStyle(color: kTextColor)),
+    textTheme: TextTheme(bodyLarge: TextStyle(color: kTextColor)),
     scaffoldBackgroundColor: kBackgroundColor,
     primaryColor: kPrimaryColor,
-    backgroundColor: Colors.white,
     visualDensity: VisualDensity.adaptivePlatformDensity,
-    colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal)
+    colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: Colors.teal, backgroundColor: Colors.white)
         .copyWith(secondary: kAccentColor),
   );
 

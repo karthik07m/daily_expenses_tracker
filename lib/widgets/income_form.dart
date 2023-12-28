@@ -60,7 +60,7 @@ class _IncomeFormState extends State<IncomeForm> {
                 "This Month Income",
                 style: TextStyle(
                     fontSize: 20,
-                    color: Theme.of(context).textTheme.bodyText1!.color),
+                    color: Theme.of(context).textTheme.bodyLarge!.color),
                 textAlign: TextAlign.center,
               ),
               Padding(
@@ -106,7 +106,7 @@ class _IncomeFormState extends State<IncomeForm> {
           backgroundColor: kPrimaryColor,
           child: Icon(
             Icons.save,
-            color: Theme.of(context).backgroundColor,
+            color: Theme.of(context).colorScheme.background,
           ),
           elevation: 0.1,
           onPressed: () {

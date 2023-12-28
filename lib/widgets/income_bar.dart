@@ -23,64 +23,72 @@ class IncomeBar extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-              height: 60,
-              width: 350,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  spent == 0.0 || expenseHeight < 9
-                      ? Text("")
-                      : Expanded(
-                          flex: total == 0.0
-                              ? (spent * 100).round()
-                              : ((spent / total) * 100).round(),
-                          child: Container(
-                            padding: const EdgeInsets.all(8),
-                            child: Center(
-                                child: FittedBox(
-                                    child: Column(
-                              children: [
-                                Text("Expenses",
-                                    style: TextStyle(color: kBackgroundColor)),
-                                Text("${UtilityFunction.addComma(spent)}",
-                                    style: TextStyle(color: kBackgroundColor)),
-                              ],
-                            ))),
-                            height: 60,
-                            decoration: BoxDecoration(
-                                color: Colors.redAccent,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(28),
-                                )),
-                          ),
-                        ),
+            height: 60,
+            width: 350,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                if (spent > 0.0)
                   Expanded(
-                    flex: total == 0.0
-                        ? (avail * 100).round()
-                        : ((avail / total) * 100).round(),
+                    flex: expenseHeight,
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       child: Center(
-                          child: FittedBox(
-                              child: Column(
-                        children: [
-                          Text('Available',
-                              style: TextStyle(color: kBackgroundColor)),
-                          Text("${UtilityFunction.addComma(avail)}",
-                              style: TextStyle(color: kBackgroundColor)),
-                        ],
-                      ))),
+                        child: FittedBox(
+                          child: Column(
+                            children: [
+                              Text("Expenses",
+                                  style: TextStyle(color: kBackgroundColor)),
+                              Text("${UtilityFunction.addComma(spent)}",
+                                  style: TextStyle(color: kBackgroundColor)),
+                            ],
+                          ),
+                        ),
+                      ),
                       height: 60,
+                      decoration: BoxDecoration(
+                        color: Colors.redAccent,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(28),
+                        ),
+                      ),
                     ),
-                  )
-                ],
+                  ),
+                if (avail > 0)
+                  Expanded(
+                    flex: spent == 0.0 ? 100 : 100 - expenseHeight,
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      child: Center(
+                        child: FittedBox(
+                          child: Column(
+                            children: [
+                              Text('Available',
+                                  style: TextStyle(color: kBackgroundColor)),
+                              Text("${UtilityFunction.addComma(avail)}",
+                                  style: TextStyle(color: kBackgroundColor)),
+                            ],
+                          ),
+                        ),
+                      ),
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: Colors.greenAccent[400],
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(28),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+            decoration: BoxDecoration(
+              color: Colors.greenAccent[400],
+              borderRadius: BorderRadius.all(
+                Radius.circular(28),
               ),
-              decoration: BoxDecoration(
-                color: Colors.greenAccent[400],
-                borderRadius: BorderRadius.all(
-                  Radius.circular(28),
-                ),
-              )),
+            ),
+          ),
         ),
       ],
     );

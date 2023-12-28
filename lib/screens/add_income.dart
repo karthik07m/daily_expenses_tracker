@@ -122,7 +122,7 @@ class _AddIncomeState extends State<AddIncome> {
                   ? Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Card(
-                        color: Theme.of(context).backgroundColor,
+                        color: Theme.of(context).colorScheme.background,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -141,7 +141,7 @@ class _AddIncomeState extends State<AddIncome> {
                                           fontSize: 16,
                                           color: Theme.of(context)
                                               .textTheme
-                                              .bodyText1!
+                                              .bodyLarge!
                                               .color),
                                     ),
                                     Expanded(

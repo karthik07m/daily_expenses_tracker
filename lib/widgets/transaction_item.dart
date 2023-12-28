@@ -17,14 +17,14 @@ class TransactionItem extends StatelessWidget {
     Widget listView = ListTile(
       leading: Icon(
         UtilityFunction.getIcon(transactionItem.category),
-        size: 55,
+        size: 40,
         color: kPrimaryColor,
       ),
       title: Text(
         transactionItem.title.isEmpty
             ? transactionItem.category
             : transactionItem.title,
-        style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color),
+        style: TextStyle(color: Theme.of(context).textTheme.bodyLarge!.color),
       ),
       subtitle: Text(DateFormat.yMMMEd().format(transactionItem.date)),
       trailing: Chip(
@@ -95,7 +95,7 @@ class TransactionItem extends StatelessWidget {
                           ));
                 },
                 background: Container(
-                  color: Theme.of(context).errorColor,
+                  color: Theme.of(context).colorScheme.error,
                   child: Icon(
                     Icons.delete,
                     color: Colors.white,

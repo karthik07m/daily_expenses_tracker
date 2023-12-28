@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:coinsaver/screens/setting.dart';
 import 'package:coinsaver/screens/view_all_transaction.dart';
 import 'package:coinsaver/utilities/currency.dart';
@@ -25,7 +27,7 @@ import 'screens/day_transaction.dart';
 import 'screens/charts/pie_chart.dart';
 import 'screens/main_screen.dart';
 import 'models/notification.dart';
-import 'screens/splash_screen.dart';
+
 import 'utilities/check_backup.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -41,6 +43,23 @@ const MethodChannel platform = MethodChannel('dexterx.dev/coinsaver');
 
 String? selectedNotificationPayload;
 late final NotificationAppLaunchDetails? notificationAppLaunchDetails;
+
+@pragma('vm:entry-point')
+void notificationTapBackground(NotificationResponse notificationResponse) {
+  // ignore: avoid_print
+  print('notification(${notificationResponse.id}) action tapped: '
+      '${notificationResponse.actionId} with'
+      ' payload: ${notificationResponse.payload}');
+  if (notificationResponse.input?.isNotEmpty ?? false) {
+    // ignore: avoid_print
+    print(
+        'notification action tapped with input: ${notificationResponse.input}');
+  }
+}
+
+final StreamController<String?> selectNotificationStream =
+    StreamController<String?>.broadcast();
+const String navigationActionId = 'id_3';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -56,14 +75,32 @@ Future<void> main() async {
       AndroidInitializationSettings('app_icon');
   final InitializationSettings initializationSettings =
       InitializationSettings(android: initializationSettingsAndroid);
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      onSelectNotification: (String? payload) async {
-    if (payload != null) {
-      debugPrint('notification payload: $payload');
-    }
-    selectedNotificationPayload = payload;
-    selectNotificationSubject.add(payload);
-  });
+
+  await flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
+    onDidReceiveNotificationResponse:
+        (NotificationResponse notificationResponse) {
+      switch (notificationResponse.notificationResponseType) {
+        case NotificationResponseType.selectedNotification:
+          selectNotificationStream.add(notificationResponse.payload);
+          break;
+        case NotificationResponseType.selectedNotificationAction:
+          if (notificationResponse.actionId == navigationActionId) {
+            selectNotificationStream.add(notificationResponse.payload);
+          }
+          break;
+      }
+    },
+    onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
+  );
+  // await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+  //     onSelectNotification: (String? payload) async {
+  //   if (payload != null) {
+  //     debugPrint('notification payload: $payload');
+  //   }
+  //   selectedNotificationPayload = payload;
+  //   selectNotificationSubject.add(payload);
+  // });
 
   SharedPreferences.getInstance().then((prefs) {
     var isDarkTheme = prefs.getBool("darkTheme") ?? false;
@@ -94,7 +131,8 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: appName,
           theme: value.getTheme(),
-          home: SplashScreen(),
+          home: MainScreen(notificationAppLaunchDetails),
+          debugShowCheckedModeBanner: false,
           routes: {
             MainScreen.routeName: (ctx) =>
                 MainScreen(notificationAppLaunchDetails),
@@ -107,7 +145,9 @@ class MyApp extends StatelessWidget {
                   title: "Beta-Version",
                 ),
             AppInfo.routeName: (ctx) => AppInfo(),
-            ViewAllTransaction.routeName: (ctx) => ViewAllTransaction()
+            ViewAllTransaction.routeName: (ctx) => ViewAllTransaction(
+                  isHome: false,
+                )
           },
         ),
       ),

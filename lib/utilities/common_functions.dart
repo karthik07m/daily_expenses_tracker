@@ -1,45 +1,46 @@
 import 'package:coinsaver/utilities/currency.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
 class UtilityFunction {
   static String currency = "₹";
 
   /* Catergory related functions */
-  static const firstRowCats = ["Grociers", "Food", "Transport"];
+  static const firstRowCats = ["Grociers", "Food", "Travel"];
   static const secondRowCats = ["Entertainment", "Shopping", "Bills"];
-  static const thirdRowCats = ["Health", "Tax", "Other"];
+  static const thirdRowCats = ["Personal", "Tax", "Other"];
 
   static const incomeCats = ["Salary", "Bonus", "Other"];
 
   static IconData getIcon(String category) {
     switch (category) {
-      case "Grociers":
+      case "Groceries":
         {
-          return Icons.shopping_bag_outlined;
+          return FontAwesomeIcons.basketShopping;
         }
 
       case "Entertainment":
         {
-          return Icons.video_library_outlined;
+          return FontAwesomeIcons.radio;
         }
-      case "Transport":
+      case "Travel":
         {
-          return Icons.train_outlined;
+          return FontAwesomeIcons.car;
         }
 
       case "Food":
         {
-          return Icons.fastfood_outlined;
+          return Icons.fastfood;
         }
       case "Shopping":
         {
-          return Icons.shop_outlined;
+          return FontAwesomeIcons.cartShopping;
         }
 
       case "Bills":
         {
-          return Icons.pages;
+          return FontAwesomeIcons.moneyBillWave;
         }
       case "Tax":
         {

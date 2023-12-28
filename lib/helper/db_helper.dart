@@ -13,12 +13,10 @@ class DBHelper {
               "CREATE TABLE transaction_data (id TEXT PRIMARY KEY, isIncome INTEGER ,title TEXT,amount REAL,category TEXT, date TEXT)")
           : db.execute(
               "CREATE TABLE transaction_data (id TEXT PRIMARY KEY ,title TEXT,amount REAL,category TEXT, date TEXT)");
-      // db.rawQuery("ALTER TABLE transaction_data ADD COLUMN isIncome INTEGER");
     }, onUpgrade: _onUpgrade, version: 2);
   }
 
   static void _onUpgrade(db, int oldVersion, int newVersion) {
-    print(oldVersion);
     if (oldVersion < newVersion) {
       db.execute(
           "ALTER TABLE transaction_data ADD COLUMN isIncome INTEGER DEFAULT 0");
@@ -31,8 +29,19 @@ class DBHelper {
         conflictAlgorithm: sql.ConflictAlgorithm.replace);
   }
 
+  ///Modification test query
+  static Future<void> modifyData() async {
+    final db = await DBHelper.database();
+    await db.rawQuery(
+        "UPDATE transaction_data SET category = 'Travel' WHERE category = 'Transport' ");
+  }
+
+  ///Modification test query
+
   static Future<List<Map<String, dynamic>>> getData(String table) async {
     final db = await DBHelper.database();
+
+    //modifyData();
     return await db.rawQuery("SELECT * FROM $table ORDER BY date");
   }
 
@@ -104,14 +113,7 @@ class DBHelper {
         "SELECT SUM(amount) FROM $table WHERE date BETWEEN  '$startDate' AND '$endDate'");
   }
 
-  // static Future<List<Map<String, dynamic>>> getTotalsBwtData(
-  //     String table, DateTime startDate, DateTime endDate) async {
-  //   final db = await DBHelper.database();
-
-  //   return await db.rawQuery(
-  //       "(SELECT SUM(amount) as expenseTotal FROM $table WHERE (isIncome = 0) AND (date BETWEEN '$startDate' AND '$endDate'))  UNION (SELECT SUM(amount) as incomeTotal FROM $table WHERE (isIncome = 1) AND (date BETWEEN '$startDate' AND '$endDate')) ");
-  // }
-
+// Month related transactions
   static Future<List<Map<String, dynamic>>> getMonthTransactionDetails(
       String table, String startDate, String endDate) async {
     final db = await DBHelper.database();
@@ -125,6 +127,36 @@ class DBHelper {
     return await db.rawQuery(
         "SELECT category, COUNT(*), SUM(amount) FROM $table WHERE isIncome = 1 AND date BETWEEN '$startDate' AND '$endDate' GROUP BY category");
   }
+
+  //new
+
+  static Future<List<Map<String, dynamic>>> getMonthCategoryTransactionDetails(
+      String table, String startDate, String endDate) async {
+    final db = await DBHelper.database();
+    return await db.rawQuery(
+        "SELECT category,  SUM(amount) as totalAmount FROM $table WHERE isIncome = 0 AND date BETWEEN '$startDate' AND '$endDate' GROUP BY category ORDER BY  SUM(amount)  DESC");
+  }
+
+  static Future<List<Map<String, dynamic>>> getMonthTransactionByCategory(
+      String table, String startDate, String endDate, String category) async {
+    final db = await DBHelper.database();
+    return await db.rawQuery(
+        "SELECT * FROM $table WHERE isIncome = 0 AND date BETWEEN '$startDate' AND '$endDate' AND category = '$category' ORDER BY amount DESC");
+  }
+
+// Month end
+
+// YEAR **********************
+
+  static Future<List<Map<String, dynamic>>> getEveryMonthExpenses(
+      bool isIncome) async {
+    final db = await DBHelper.database();
+    int isIncomeSelected = isIncome ? 1 : 0;
+    return await db.rawQuery(
+        "SELECT strftime('%Y-%m', date) AS month, SUM(amount) AS total_income FROM transaction_data WHERE isIncome = $isIncomeSelected AND strftime('%Y', date) = strftime('%Y', 'now') GROUP BY month ORDER BY month");
+  }
+
+// YEAR END ***********
 
   static deleteItem(String id) async {
     final db = await DBHelper.database();
